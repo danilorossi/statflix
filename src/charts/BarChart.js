@@ -2,8 +2,8 @@ import React from 'react';
 import * as d3 from 'd3';
 
 const width = 500;
-const height = 100;
-const margin = { top: 20, right: 35, bottom: 20, left: 35 };
+const height = 150;
+const margin = { top: 20, right: 20, bottom: 60, left: 20 };
 
 class BarChart extends React.Component  {
 
@@ -17,15 +17,15 @@ class BarChart extends React.Component  {
 
     const extent = d3.extent(data, d => d.year);
      const xScale = d3
-       .scaleTime()
-       .domain(extent)
-       .range([ 0, width - margin.right - margin.left ]);
+       .scaleBand().padding(0.2).domain(data.map(d => d.year).sort((a, b) => a.year - b.year))
+       //.scaleLinear().domain(extent)
+       .range([ margin.left, width - margin.right]);
 
      const max = d3.max(data, d => d.count);
      const yScale = d3
        .scaleLinear()
        .domain([ max, 0 ])
-       .range([ height - margin.top, margin.bottom ]);
+       .range([ height - margin.bottom, margin.top ]);
 
      // 3. map avg temp to color
      // get min/max of avg
@@ -35,19 +35,19 @@ class BarChart extends React.Component  {
        .domain([colorExtent[0]*1.5, colorExtent[1]])
        .interpolator(d3.interpolateReds);
 
-      this.barsWidth = ((width - margin.right) / data.length);
 
      const bars = data.map(d => {
        return {
          x: xScale(d.year),
-         y: yScale(max) - yScale(d.count),
+         y: 0,//yScale(d.count),
+         year: d.year,
          count: d.count,
          height: yScale(d.count),
          fill: colorScale(d.count)
        };
      });
 
-    if(bars) {this.barsWidth = Math.floor(width / bars.length);}
+     if(bars) {this.barsWidth = xScale.bandwidth()}//Math.floor(width / bars.length);}
     this.setState({ bars })
   }
 
@@ -62,6 +62,13 @@ class BarChart extends React.Component  {
   }
 
   render() {
+
+    /*
+    <polygon fill={d.fill} stroke={d.fill} points={
+      `${d.x},${d.y+d.height+margin.top}
+        ${d.x+(this.barsWidth/2)},${d.y+d.height+margin.top+20}
+        ${d.x+this.barsWidth},${d.y+d.height+margin.top}`}  />,
+    */
     const { title } = this.props;
     const { bars } = this.state;
     return (
@@ -71,9 +78,13 @@ class BarChart extends React.Component  {
         <svg width={width} height={height}>
           {this.state.bars.map(d => (
             [
-              <rect x={d.x} y={d.y} width={this.barsWidth} height={d.height} fill={d.fill} />,
-
-              <text x={d.x + (this.barsWidth/2)} y={d.y - 4} textAnchor="middle" fill="white">
+              <rect x={d.x} y={d.y} width={this.barsWidth} height={d.height+margin.top} fill={d.fill} />,
+              <polygon stroke-width="1" fill={d.fill} stroke={d.fill} points={
+                `${d.x+1},${d.y+d.height+margin.top}
+                  ${d.x+(this.barsWidth/2)},${d.y+d.height+margin.top+20}
+                  ${d.x-1+this.barsWidth},${d.y+d.height+margin.top}`}  />,
+              <text font-weight="bold" x={d.x + (this.barsWidth/2)} textAnchor="middle" y={d.y + 20}  fill="white">{d.year}</text>,
+              <text font-weight="bold" x={d.x + (this.barsWidth/2)} y={d.y + d.height + 60} textAnchor="middle" fill={d.fill}>
                 {d.count}
               </text>
             ]

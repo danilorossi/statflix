@@ -5,7 +5,7 @@ import statflixLogo from './statflix_logo.png';
 import logo from './logo.svg';
 import './App.css';
 import DropZone from './DropZone';
-
+import FAQ from './faq';
 
 
 import {
@@ -87,11 +87,20 @@ class App extends React.Component {
       </div>
 
         {!dataLoaded &&
-          <div>
-            <DropZone onComplete={this.onFileUploaded}/>
-          </div>
-}
-          {dataLoaded &&
+          <Grid columns={1}>
+
+            <Grid.Column>
+              <DropZone onComplete={this.onFileUploaded}/>
+            </Grid.Column>
+
+            <Grid.Column textAlign='left'>
+              <FAQ> </FAQ>
+              { this.doSpace(100) }
+            </Grid.Column>
+
+          </Grid>
+        }
+        {dataLoaded &&
           <Grid columns={1}>
 
 

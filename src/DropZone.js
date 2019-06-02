@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react'
 import { useDropzone } from 'react-dropzone'
+import { Divider } from 'semantic-ui-react'
 
 export default function MyDropzone({ onComplete }) {
   const onDrop = useCallback(acceptedFiles => {
@@ -19,16 +20,20 @@ export default function MyDropzone({ onComplete }) {
   const { getRootProps, getInputProps } = useDropzone({onDrop})
 
   return (
-    <div  style={{
+    <div className="dropzone" style={{
       padding: '10%',
-      margin: '10%',
-      color: 'white',
-      border: '5px solid rgba(222, 59, 48, 0.5)',
+      margin: '10% 10% 0',
+      color: 'grey',
+      fontSize: '1em',
+
+      border: '5px solid rgb(222, 59, 48)',
       borderRadius: '10px',
       cursor: 'pointer',
     }} {...getRootProps()}>
       <input {...getInputProps()} />
-      <p style={{ fontSize: '1.5em', color: '#555' }}>Drop Netflix viewing history CSV file, or click to select files</p>
+      <p>Drop <span style={{ }}>NETFLIX VIEWING HISTORY CSV</span> file</p>
+      <Divider style={{color:'#de3b30'}} horizontal>Or</Divider>
+      <p>click to select the file</p>
     </div>
   )
 }
