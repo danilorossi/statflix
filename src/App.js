@@ -7,7 +7,6 @@ import './App.css';
 import DropZone from './DropZone';
 import FAQ from './faq';
 
-
 import {
   parseCsv,
   computeAccumulateByMonth,
@@ -19,6 +18,11 @@ import BarChart from './charts/BarChart';
 import YearTimelineChart from './charts/YearTimelineChart';
 import FirstEpisode from './components/statistics/FirstEpisode';
 import SimpleStats from './components/statistics/SimpleStats';
+
+
+// TODO this is duplicated in FirstEpisode compnent
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 
 class App extends React.Component {
 
@@ -39,7 +43,8 @@ class App extends React.Component {
         episodesPerMonth,
         episodesPerYear,
         mostActiveDay,
-        accumulateByDay
+        accumulateByDay,
+        accumulateByWeekDay,
       } = parseCsv(csvString);
 
       this.setState({
@@ -52,6 +57,7 @@ class App extends React.Component {
           episodesPerYear,
           mostActiveDay,
           accumulateByDay,
+          accumulateByWeekDay,
         }
       })
     }
@@ -141,6 +147,17 @@ class App extends React.Component {
                 />
               }
             </Grid.Column>
+            <Grid.Column>
+              { dataLoaded &&
+                data.accumulateByWeekDay &&
+                <SimpleStats
+                  headerText="Mostly on"
+                  value={`${days[data.accumulateByWeekDay[0].weekDay]}s` }
+                  footerText={`(and ${days[data.accumulateByWeekDay[1].weekDay]}s)` }
+                />
+              }
+            </Grid.Column>
+
 
             <Grid.Column>
               { dataLoaded &&
@@ -192,14 +209,6 @@ class App extends React.Component {
               }
             </Grid.Column>
 
-            <Grid.Column>
-              { this.doSpace(20) }
-              { dataLoaded &&
-                data.accumulateByDay &&
-                <h1>PLACEHOLDER</h1>
-
-              }
-            </Grid.Column>
 
 
             <Grid.Column>
@@ -214,6 +223,26 @@ class App extends React.Component {
                 )
               }
             </Grid.Column>
+
+
+            <Grid.Column>
+              { this.doSpace(40) }
+              <Divider inverted horizontal>
+                <Header style={{ color: "red" }} as='h5'>
+                  FULL CALENDAR
+                </Header>
+              </Divider>
+            </Grid.Column>
+
+            <Grid.Column>
+              { this.doSpace(20) }
+              { dataLoaded &&
+                data.accumulateByDay &&
+                <h1>PLACEHOLDER</h1>
+
+              }
+            </Grid.Column>
+
 
           </Grid>
         }

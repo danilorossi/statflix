@@ -55,6 +55,7 @@ export const parseCsv = (csvString) => {
   const yearSet = new Set();
 
   const accumulateByDayDictionary = {};
+  const accumulateByDayOfWeekDictionary = {};
 
   const sampleData = rawData.map((entry, idx) => {
     const [ title, dateString ] = entry;
@@ -80,6 +81,7 @@ export const parseCsv = (csvString) => {
         year: item.year,
         month: item.month,
         day: item.day,
+        weekDay: item.weekDay,
         date,
         items: [item]
       };
@@ -91,12 +93,27 @@ export const parseCsv = (csvString) => {
       }
     }
 
+    const keyWeekDay = item.weekDay;
+    if(!accumulateByDayOfWeekDictionary[keyWeekDay]) {
+      accumulateByDayOfWeekDictionary[keyWeekDay] = {
+        count: 1,
+        weekDay: item.weekDay,
+        date,
+        items: [item]
+      };
+    } else {
+      accumulateByDayOfWeekDictionary[keyWeekDay] = {
+        ...accumulateByDayOfWeekDictionary[keyWeekDay],
+        count: accumulateByDayOfWeekDictionary[keyWeekDay].count + 1,
+        items: accumulateByDayOfWeekDictionary[keyWeekDay].items.concat(item)
+      }
+    }
     return item;
   }).sort((a, b) => a.date - b.date);
 
   const yearsList = Array.from(yearSet).sort((a, b) => a - b);
   const accumulateByDay = Object.values(accumulateByDayDictionary);
-console.log('accumulateByDay', accumulateByDay)
+  const accumulateByWeekDay = Object.values(accumulateByDayOfWeekDictionary).sort((a, b) => b.count - a.count);
 
   const episodesPerMonth = yearsList.map(year =>
     ({ year, data: computeAccumulateByMonth(sampleData, year) })
@@ -135,6 +152,7 @@ console.log('accumulateByDay', accumulateByDay)
     episodesPerYear,
     mostActiveDay,
     accumulateByDay,
+    accumulateByWeekDay,
   }
 
 }
