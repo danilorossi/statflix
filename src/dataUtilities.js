@@ -54,6 +54,8 @@ export const parseCsv = (csvString) => {
 
   const yearSet = new Set();
 
+  const accumulateByDayDictionary = {};
+
   const sampleData = rawData.map((entry, idx) => {
     const [ title, dateString ] = entry;
     const [ day, month, shortYear ] = dateString.split('/');
@@ -62,7 +64,7 @@ export const parseCsv = (csvString) => {
     const formattedDateString = `20${shortYear}-${month}-${day}`;
     const date = new Date(Date.parse(formattedDateString));
     yearSet.add(date.getFullYear());
-    return {
+    const item = {
       title,
       date,
       year: date.getFullYear(),
@@ -70,16 +72,38 @@ export const parseCsv = (csvString) => {
       day: date.getDate(),
       weekDay: date.getDay(),
     }
+
+    const key = `${item.day}-${item.month}-${item.year}`;
+    if(!accumulateByDayDictionary[key]) {
+      accumulateByDayDictionary[key] = {
+        count: 1,
+        year: item.year,
+        month: item.month,
+        day: item.day,
+        date,
+        items: [item]
+      };
+    } else {
+      accumulateByDayDictionary[key] = {
+        ...accumulateByDayDictionary[key],
+        count: accumulateByDayDictionary[key].count + 1,
+        items: accumulateByDayDictionary[key].items.concat(item)
+      }
+    }
+
+    return item;
   }).sort((a, b) => a.date - b.date);
 
   const yearsList = Array.from(yearSet).sort((a, b) => a - b);
-
+  const accumulateByDay = Object.values(accumulateByDayDictionary);
+console.log('accumulateByDay', accumulateByDay)
 
   const episodesPerMonth = yearsList.map(year =>
     ({ year, data: computeAccumulateByMonth(sampleData, year) })
   ).sort((a, b) => a.year - b.year);
 
 
+  const mostActiveDay = Object.values(accumulateByDayDictionary).sort((a, b) => b.count - a.count)[0]
   const episodesPerYear = episodesPerMonth.map(yearData => {
 
       const count = yearData.data.reduce((acc, curr) => {
@@ -92,7 +116,7 @@ export const parseCsv = (csvString) => {
       }
   }).sort((a, b) => a.year - b.year);
 
-  console.log(episodesPerYear)
+
 
   // Episodes in general per day?
 
@@ -109,6 +133,8 @@ export const parseCsv = (csvString) => {
     sampleData,
     episodesPerMonth,
     episodesPerYear,
+    mostActiveDay,
+    accumulateByDay,
   }
 
 }
@@ -142,23 +168,23 @@ export const computeSimilarities = sampleData => {
 
 
 
-  const result = stringSimilarity.findBestMatch(
-    sampleData[0].title,
-    sampleData.map(data => data.title)
-  )
-
-  console.log('Homeland episodes : ' +sampleData.filter(s => s.title.startsWith('Homeland')).length)
-  console.log(result)
-
-  const firstPass = result.ratings.filter(entry => entry.rating > 0.7)
-  console.log('> 0.7: ' + firstPass.length, firstPass)
-
-  const x = stringSimilarity.findBestMatch(
-    sampleData[0].title.substring(0, 7),
-    firstPass.map(data => data.target.substring(0, 7))
-  )
-
-  return x.ratings.filter(entry => entry.rating > 0.5)
+  // const result = stringSimilarity.findBestMatch(
+  //   sampleData[0].title,
+  //   sampleData.map(data => data.title)
+  // )
+  //
+  // console.log('Homeland episodes : ' +sampleData.filter(s => s.title.startsWith('Homeland')).length)
+  // console.log(result)
+  //
+  // const firstPass = result.ratings.filter(entry => entry.rating > 0.7)
+  // console.log('> 0.7: ' + firstPass.length, firstPass)
+  //
+  // const x = stringSimilarity.findBestMatch(
+  //   sampleData[0].title.substring(0, 7),
+  //   firstPass.map(data => data.target.substring(0, 7))
+  // )
+  //
+  // return x.ratings.filter(entry => entry.rating > 0.5)
 }
 
 export const computeAccumulateByMonth = (sampleData, year) => {

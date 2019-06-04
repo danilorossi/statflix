@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Icon, Label } from 'semantic-ui-react'
+import { Button, Grid, Icon, Label, Divider, Header } from 'semantic-ui-react'
 
 import statflixLogo from './statflix_logo.png';
 import logo from './logo.svg';
@@ -16,6 +16,7 @@ import {
 import sampleData from './history.csv';
 import RadialChart from './charts/RadialChart';
 import BarChart from './charts/BarChart';
+import YearTimelineChart from './charts/YearTimelineChart';
 import FirstEpisode from './components/statistics/FirstEpisode';
 import SimpleStats from './components/statistics/SimpleStats';
 
@@ -37,6 +38,8 @@ class App extends React.Component {
         yearsList,
         episodesPerMonth,
         episodesPerYear,
+        mostActiveDay,
+        accumulateByDay
       } = parseCsv(csvString);
 
       this.setState({
@@ -46,7 +49,9 @@ class App extends React.Component {
         data: {
           sampleData,
           episodesPerMonth,
-          episodesPerYear
+          episodesPerYear,
+          mostActiveDay,
+          accumulateByDay,
         }
       })
     }
@@ -58,19 +63,19 @@ class App extends React.Component {
       dataLoaded,
       data,
       yearsList,
-
     } = this.state;
 
     let yearsButtons = [];
 
-    if (dataLoaded && yearsList) {
-
-      yearsButtons = yearsList.map((year, i) => (
-        <Button basic={year === currentYear ? null : true } color='red' onClick={() => this.setState({currentYear: year})}>
-          {year}
-        </Button>
-      ))
-    }
+    // if (dataLoaded && yearsList) {
+    //
+    //   yearsButtons = yearsList.map((year, i) => (
+    //     <Button basic={year === currentYear ? null : true } color='red' onClick={() => this.setState({currentYear: year})}>
+    //       {year}
+    //     </Button>
+    //   ))
+    // }
+    console.log(data)
     const episodePerMonth = dataLoaded ? data.episodesPerMonth.filter(data => data.year === currentYear)[0] : null;
 
     return (
@@ -106,8 +111,13 @@ class App extends React.Component {
 
             <Grid.Column>
               { this.doSpace(100) }
-              <Icon color="red" name="asterisk" />
-              { this.doSpace(100) }
+              {false && <Icon color="red" name="asterisk" />}
+              <Divider inverted horizontal>
+                <Header style={{ color: "red" }} as='h5'>
+                  FUN FACTS
+                </Header>
+              </Divider>
+              { this.doSpace(80) }
             </Grid.Column>
 
             <Grid.Column>
@@ -117,20 +127,40 @@ class App extends React.Component {
             </Grid.Column>
 
             <Grid.Column>
-              { this.doSpace(100) }
-              <Icon color="red" name="asterisk" />
-              { this.doSpace(100) }
+              { this.doSpace(50) }
+
             </Grid.Column>
 
             <Grid.Column>
               { dataLoaded &&
                 data.sampleData &&
                 <SimpleStats
-                  headerText="You saw"
+                  headerText="Overall, you saw"
                   value={data.sampleData.length}
                   footerText="episodes"
                 />
               }
+            </Grid.Column>
+
+            <Grid.Column>
+              { dataLoaded &&
+                data.mostActiveDay &&
+                <SimpleStats
+                  headerText="with a record of"
+                  value={data.mostActiveDay.count}
+                  footerText="in one day"
+                />
+              }
+            </Grid.Column>
+
+            <Grid.Column>
+              { this.doSpace(100) }
+              <Divider inverted horizontal>
+                <Header style={{ color: "red" }} as='h5'>
+                  EPISODES PER YEAR
+                </Header>
+              </Divider>
+              { this.doSpace(40) }
             </Grid.Column>
 
             <Grid.Column>
@@ -141,16 +171,45 @@ class App extends React.Component {
               }
             </Grid.Column>
 
+            <Grid.Column>
+              { this.doSpace(40) }
+              <Divider inverted horizontal>
+                <Header style={{ color: "red" }} as='h5'>
+                  SOME STATS FOR {currentYear}
+                </Header>
+              </Divider>
+            </Grid.Column>
+
+
+            <Grid.Column>
+              { this.doSpace(20) }
+              { dataLoaded &&
+                data.episodesPerYear &&
+                <YearTimelineChart
+                  selectYear={(year) => this.setState({currentYear: year})}
+                  selected={currentYear}
+                  data={data.episodesPerYear}/>
+              }
+            </Grid.Column>
+
+            <Grid.Column>
+              { this.doSpace(20) }
+              { dataLoaded &&
+                data.accumulateByDay &&
+                <h1>PLACEHOLDER</h1>
+
+              }
+            </Grid.Column>
+
 
             <Grid.Column>
 
-              { dataLoaded && <div style={{ width: "100%", margin: "0 auto" }}>{ yearsButtons }</div> }
+              {/* dataLoaded && <div style={{ width: "100%", margin: "0 auto" }}>{ yearsButtons }</div> */}
 
-              { this.doSpace(40) }
               { dataLoaded &&
                 episodePerMonth &&
                 (<div>
-                  <RadialChart title={`Episodes per month in ${episodePerMonth.year}`} data={episodePerMonth.data} />
+                  <RadialChart selected={currentYear} data={episodePerMonth.data} />
                 </div>
                 )
               }

@@ -1,8 +1,8 @@
 import React from 'react';
 import * as d3 from 'd3';
 
-const width = 650;
-const height = 400;
+const width = 400;
+const height = 200;
 
 class RadialChart extends React.Component  {
 
@@ -13,7 +13,7 @@ class RadialChart extends React.Component  {
       return;
     }
 
-    const radiusScale = d3.scaleLinear().range([0, width / 4])
+    const radiusScale = d3.scaleLinear().range([0, 100])
     const colorScale = d3.scaleSequential(d3.interpolateReds)
 
     const [minCount, maxCount] = d3.extent(data, d => d.count);
@@ -58,18 +58,15 @@ class RadialChart extends React.Component  {
   componentDidMount() {
     this.processData(this.props.data);
   }
-
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.title !== prevProps.title) {
+    if (this.props.selected !== prevProps.selected) {
       this.processData(this.props.data);
     }
   }
 
   render() {
-    const { title } = this.props || 'Radial Chart';
     const { paths, tempAnnotations } = this.state;
-    return ([
-      <h3>{title}</h3>,
+    return (
       <svg ref="svg" width={width} height={height}>
 
         <g transform={`translate(${width / 2}, ${height / 2})`}>
@@ -87,7 +84,7 @@ class RadialChart extends React.Component  {
           ))}
         </g>
       </svg>
-    ]);
+    );
   }
 }
 
