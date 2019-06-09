@@ -112,7 +112,7 @@ export const parseCsv = (csvString) => {
   }).sort((a, b) => a.date - b.date);
 
   const yearsList = Array.from(yearSet).sort((a, b) => a - b);
-  const accumulateByDay = Object.values(accumulateByDayDictionary);
+  // const accumulateByDayDictionary = Object.values(accumulateByDayDictionary);
   const accumulateByWeekDay = Object.values(accumulateByDayOfWeekDictionary).sort((a, b) => b.count - a.count);
 
   const episodesPerMonth = yearsList.map(year =>
@@ -151,7 +151,7 @@ export const parseCsv = (csvString) => {
     episodesPerMonth,
     episodesPerYear,
     mostActiveDay,
-    accumulateByDay,
+    accumulateByDayDictionary,
     accumulateByWeekDay,
   }
 
@@ -219,6 +219,7 @@ export const computeAccumulateByMonth = (sampleData, year) => {
           [key]: {
             ...entry,
             key,
+            entries: acc[key].entries.concat(curr),
             count: entry.count + 1
           }
         }
@@ -227,8 +228,10 @@ export const computeAccumulateByMonth = (sampleData, year) => {
           ...acc,
           [key]: {
             key,
+            month: curr.month,
             date: curr.date,
             year: curr.year,
+            entries: [curr],
             count: 1
           }
         };

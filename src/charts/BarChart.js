@@ -79,12 +79,12 @@ class BarChart extends React.Component  {
           {this.state.bars.map(d => (
             [
               <rect x={d.x} y={d.y} width={this.barsWidth} height={d.height+margin.top} fill={d.fill} />,
-              <polygon stroke-width="1" fill={d.fill} stroke={d.fill} points={
+              <polygon strokeWidth="1" fill={d.fill} stroke={d.fill} points={
                 `${d.x+1},${d.y+d.height+margin.top}
                   ${d.x+(this.barsWidth/2)},${d.y+d.height+margin.top+20}
                   ${d.x-1+this.barsWidth},${d.y+d.height+margin.top}`}  />,
-              <text font-weight="bold" x={d.x + (this.barsWidth/2)} textAnchor="middle" y={d.y + 20}  fill="white">{d.year}</text>,
-              <text font-weight="bold" x={d.x + (this.barsWidth/2)} y={d.y + d.height + 60} textAnchor="middle" fill={d.fill}>
+              <text fontWeight="bold" x={d.x + (this.barsWidth/2)} textAnchor="middle" y={d.y + 20}  fill="white">{d.year}</text>,
+              <text fontWeight="bold" x={d.x + (this.barsWidth/2)} y={d.y + d.height + 60} textAnchor="middle" fill={d.fill}>
                 {d.count}
               </text>
             ]

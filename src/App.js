@@ -15,6 +15,7 @@ import {
 import sampleData from './history.csv';
 import RadialChart from './charts/RadialChart';
 import BarChart from './charts/BarChart';
+import CalendarChart from './charts/CalendarChart';
 import YearTimelineChart from './charts/YearTimelineChart';
 import FirstEpisode from './components/statistics/FirstEpisode';
 import SimpleStats from './components/statistics/SimpleStats';
@@ -43,7 +44,7 @@ class App extends React.Component {
         episodesPerMonth,
         episodesPerYear,
         mostActiveDay,
-        accumulateByDay,
+        accumulateByDayDictionary,
         accumulateByWeekDay,
       } = parseCsv(csvString);
 
@@ -56,7 +57,7 @@ class App extends React.Component {
           episodesPerMonth,
           episodesPerYear,
           mostActiveDay,
-          accumulateByDay,
+          accumulateByDayDictionary,
           accumulateByWeekDay,
         }
       })
@@ -81,7 +82,6 @@ class App extends React.Component {
     //     </Button>
     //   ))
     // }
-    console.log(data)
     const episodePerMonth = dataLoaded ? data.episodesPerMonth.filter(data => data.year === currentYear)[0] : null;
 
     return (
@@ -225,21 +225,20 @@ class App extends React.Component {
             </Grid.Column>
 
 
-            <Grid.Column>
+            {false && <Grid.Column>
               { this.doSpace(40) }
               <Divider inverted horizontal>
                 <Header style={{ color: "red" }} as='h5'>
                   FULL CALENDAR
                 </Header>
               </Divider>
-            </Grid.Column>
+            </Grid.Column>}
 
             <Grid.Column>
               { this.doSpace(20) }
               { dataLoaded &&
-                data.accumulateByDay &&
-                <h1>PLACEHOLDER</h1>
-
+                data.episodesPerMonth && data.accumulateByDayDictionary &&
+                <CalendarChart selected={currentYear} data={data.episodesPerMonth} accByDate={data.accumulateByDayDictionary}/>
               }
             </Grid.Column>
 
