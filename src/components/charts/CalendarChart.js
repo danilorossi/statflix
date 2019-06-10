@@ -1,17 +1,17 @@
 import React from 'react';
 import * as d3 from 'd3';
 
-const width = 650;
-const height = 400;
-const margin = { top: 20, right: 5, bottom: 20, left: 35 };
+// const width = 650;
+// const height = 400;
+// const margin = { top: 20, right: 5, bottom: 20, left: 35 };
 
 const cellMargin = 2,
     cellSize = 20;
 const monthName = d3.timeFormat("%B")
 var day = d3.timeFormat("%u"),
-    week = d3.timeFormat("%W"),
-    format = d3.timeFormat("%Y-%m-%d"),
-    titleFormat = d3.utcFormat("%a, %d-%b");
+    week = d3.timeFormat("%W");
+    // format = d3.timeFormat("%Y-%m-%d"),
+    // titleFormat = d3.utcFormat("%a, %d-%b");
 
 class CalendarChart extends React.Component  {
 

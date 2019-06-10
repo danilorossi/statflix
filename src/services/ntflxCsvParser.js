@@ -1,50 +1,5 @@
-// export const computeAccumulateByDate = (sampleData) => {
-//
-//   const yearSet = new Set();
-//   const dictionary = sampleData.reduce((acc, curr) => {
-//
-//     const key = `${curr.year}-${curr.month}-01`;
-//     const entry = acc[key];
-//
-//     yearSet.add(curr.year);
-//
-//     if(entry) {
-//       return {
-//         ...acc,
-//         [key]: {
-//           ...entry,
-//           key,
-//           count: entry.count + 1
-//         }
-//       }
-//     } else {
-//       return {
-//         ...acc,
-//         [key]: {
-//           key,
-//           date: curr.date,
-//           year: curr.year,
-//           count: 1
-//         }
-//       };
-//     }
-//
-//   }, {});
-//   const array = Object.keys(dictionary).map(k => dictionary[k])
-//   const sorted = array.sort(function(a, b) {
-//       return a.date - b.date;
-//   });
-//
-//   console.log(sorted)
-//   return {
-//     sampleData,
-//     yearsList: Array.from(yearSet)
-//   }
-//
-// }
-
 import * as Papa from 'papaparse';
-import stringSimilarity from 'string-similarity';
+// import stringSimilarity from 'string-similarity';
 
 export const parseCsv = (csvString) => {
   var result = Papa.parse(csvString);

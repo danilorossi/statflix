@@ -20,7 +20,8 @@ const FirstEpisodeStatistics = ({ episode }) => {
     const timeAgo = new TimeAgo('en-US')
     setTimeAgo(timeAgo.format(episode.date));
     setDayOfWeek(days[episode.date.getDay()])
-  }, []);
+  }, [ episode ]);
+
   return (
 
     <div>

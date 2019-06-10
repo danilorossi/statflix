@@ -16,7 +16,7 @@ class YearTimelineChart extends React.Component  {
       return;
     }
 
-    const extent = d3.extent(data, d => d.year);
+    // const extent = d3.extent(data, d => d.year);
      const xScale = d3
        .scaleBand().padding(1).domain(data.map(d => d.year).sort((a, b) => a.year - b.year))
        .range([ margin.left, width - margin.right]);
