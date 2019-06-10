@@ -98,7 +98,7 @@ class App extends React.Component {
 
               <Divider inverted horizontal>
                 <Header style={{ color:  CUSTOM_RED }} as='h5'>
-                  FUN FACTS
+                  YOUR FIRST TIME
                 </Header>
               </Divider>
 
@@ -107,6 +107,13 @@ class App extends React.Component {
             </Grid.Column>
 
             <Grid.Column>
+
+              <Divider inverted horizontal>
+                <Header style={{ color:  CUSTOM_RED }} as='h5'>
+                  FUN FACTS
+                </Header>
+              </Divider>
+
               { data.sampleData &&
                 <SimpleStats
                   headerText="Overall, you saw"
@@ -114,6 +121,7 @@ class App extends React.Component {
                   footerText="episodes"
                 />
               }
+
 
               { data.accumulateByWeekDay &&
                 <SimpleStats

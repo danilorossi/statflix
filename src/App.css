@@ -17,3 +17,7 @@ div.dropzone:hover {
 div.horizontal.divider {
   margin: 50px 0;
 }
+
+rect.day:hover {
+  stroke: white;
+}

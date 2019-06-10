@@ -1,6 +1,9 @@
 import React from 'react';
 import * as d3 from 'd3';
 
+
+import { Popup, Rating, List } from 'semantic-ui-react'
+
 // const width = 650;
 // const height = 400;
 // const margin = { top: 20, right: 5, bottom: 20, left: 35 };
@@ -44,7 +47,7 @@ class CalendarChart extends React.Component  {
     //const [minCount, maxCount] = d3.extent(yearEntries, d => d.count);
     this.colorScale = d3
      .scaleSequential(d3.interpolateReds)
-     .domain([20, 0]);
+     .domain([10, 0]);
 
     var minDate = d3.min(yearEntries, d => d.date)
     var maxDate = d3.max(yearEntries, d => d.date)
@@ -122,7 +125,8 @@ class CalendarChart extends React.Component  {
                             title={d}
                             width={cellSize}
                             height={cellSize}
-                            strokeWidth="0"
+                            strokeWidth="2"
+                            stroke="transparent"
                             rx="3" ry="3" fill="#333" />;
 
                         return rect;
@@ -137,18 +141,36 @@ class CalendarChart extends React.Component  {
 
                         const x = (((week(d.date) - week(new Date(d.date.getFullYear(),d.date.getMonth(),1))) * cellSize) + ((week(d.date) - week(new Date(d.date.getFullYear(),d.date.getMonth(),1))) * cellMargin) + cellMargin );
                         const y = ((day(d.date) * cellSize) + (day(d.date) * cellMargin) + cellMargin)
+                        const { count, date, items } = accumulateByDayDictionary[key];
                         const rect = <rect className="day"
                             key={'k'+k}
                             y={y}
                             x={x}
                             width={cellSize}
                             height={cellSize}
-                            strokeWidth="0"
+                            strokeWidth="2"
+                            stroke="transparent"
                             rx="3" ry="3"
-                            fill={this.colorScale(accumulateByDayDictionary[key].count)}
+                            fill={this.colorScale(count)}
                            />;
 
-                        return rect;
+                        return (
+                          <Popup trigger={rect}>
+                          <Popup.Header>date here</Popup.Header>
+                          <Popup.Content>
+                            <div>
+                              {`You saw ${ count } shows!`}
+                            </div>
+                            <List>
+                              {items.map(d => (
+                                <List.Item>{d.title}</List.Item>
+                              ))}
+
+                            </List>
+
+                          </Popup.Content>
+                          </Popup>
+                        )
 
                       }
                     )}
