@@ -2,7 +2,7 @@ import React from 'react';
 import * as d3 from 'd3';
 
 
-import { Popup, Rating, List } from 'semantic-ui-react'
+import { Popup, List, Icon, Label, Divider } from 'semantic-ui-react'
 
 // const width = 650;
 // const height = 400;
@@ -156,12 +156,15 @@ class CalendarChart extends React.Component  {
 
                         return (
                           <Popup trigger={rect}>
-                          <Popup.Header>date here</Popup.Header>
+                          <Popup.Header>
+                            <Icon name='calendar' /> { date.toDateString() }
+                            <Label circular big color='red' floating>{ count }</Label>
+                            <Divider />
+                          </Popup.Header>
+
                           <Popup.Content>
-                            <div>
-                              {`You saw ${ count } shows!`}
-                            </div>
-                            <List>
+
+                            <List style={{ textAlign: 'left' }}>
                               {items.map(d => (
                                 <List.Item>{d.title}</List.Item>
                               ))}

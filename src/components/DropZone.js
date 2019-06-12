@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Divider } from 'semantic-ui-react';
 import { CUSTOM_RED } from '../globals/colors';
+import HorizontalDivider from './HorizontalDivider';
 
 export default function MyDropzone({ onComplete }) {
 
@@ -24,7 +24,7 @@ export default function MyDropzone({ onComplete }) {
     <div className="dropzone" style={styles.dropZone} {...getRootProps()}>
       <input { ...getInputProps() } />
       <p>Drop Netflix viewing history CSV file</p>
-      <Divider style={styles.divider} horizontal>Or</Divider>
+      <HorizontalDivider text="OR" />
       <p>click to select the file</p>
     </div>
   )
@@ -40,7 +40,4 @@ const styles = {
     borderRadius: '10px',
     cursor: 'pointer',
   },
-  divider: {
-    color: CUSTOM_RED
-  }
 };
