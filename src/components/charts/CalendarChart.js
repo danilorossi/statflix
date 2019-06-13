@@ -155,7 +155,7 @@ class CalendarChart extends React.Component  {
                            />;
 
                         return (
-                          <Popup trigger={rect}>
+                          <Popup trigger={rect} flowing>
                           <Popup.Header>
                             <Icon name='calendar' /> { date.toDateString() }
                             <Label circular big color='red' floating>{ count }</Label>
@@ -164,7 +164,7 @@ class CalendarChart extends React.Component  {
 
                           <Popup.Content>
 
-                            <List style={{ textAlign: 'left' }}>
+                            <List bulleted style={{ textAlign: 'left' }}>
                               {items.map(d => (
                                 <List.Item>{d.title}</List.Item>
                               ))}

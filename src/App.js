@@ -1,10 +1,12 @@
 import React from 'react';
+import { List } from 'semantic-ui-react'
 
 import './App.css';
 
 import { parseCsv } from './services/ntflxCsvParser';
 
 import SiteHeader from './components/SiteHeader';
+import HeaderHelp from './components/HeaderHelp';
 import MainScreen from './screens/MainScreen';
 import StatScreen from './screens/StatScreen';
 
@@ -61,7 +63,10 @@ class App extends React.Component {
         <SiteHeader />
 
         { !dataLoaded &&
-          <MainScreen onFileUploaded={ this.onFileUploaded } />
+          <>
+            <HeaderHelp />
+            <MainScreen onFileUploaded={ this.onFileUploaded } />
+          </>
         }
 
         { dataLoaded &&
