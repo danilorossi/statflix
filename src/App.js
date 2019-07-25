@@ -37,7 +37,7 @@ class App extends React.Component {
 
       this.setState({
         dataLoaded: true,
-        // yearsList,
+        yearsList,
         currentYear: yearsList[0],
         data: {
           sampleData,
@@ -55,6 +55,7 @@ class App extends React.Component {
       currentYear,
       dataLoaded,
       data,
+      yearsList,      
     } = this.state;
 
     return (
@@ -70,7 +71,7 @@ class App extends React.Component {
         }
 
         { dataLoaded &&
-          <StatScreen data={data} currentYear={currentYear} />
+          <StatScreen data={data} yearsList={yearsList} currentYear={currentYear} />
         }
 
       </div>

@@ -13,7 +13,7 @@ import SimpleStats from '../components/statistics/SimpleStats';
 // TODO this is duplicated in FirstEpisode compnent
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-export default function StatScreen({ data, currentYear }) {
+export default function StatScreen({ data, yearsList, currentYear }) {
 
   const [episodePerMonth, setEpisodePerMonth] = useState(null);
   const [year, setYear] = useState(null);
@@ -22,6 +22,30 @@ export default function StatScreen({ data, currentYear }) {
     setYear(currentYear)
     setEpisodePerMonth(data.episodesPerMonth.filter(data => data.year === currentYear)[0]);
   }, [ data, currentYear ]);
+
+  const getYearSection = year => {
+    const episodesXMonth = data.episodesPerMonth.filter(data => data.year === year)[0]
+    return (<Grid.Column key={year}>
+
+      <HorizontalDivider text={`STATS FOR ${year}`} />
+
+      {(episodesXMonth && episodesXMonth.data) &&
+        <RadialChart
+          selected={year}
+          data={episodesXMonth.data}
+        />
+      }
+      <br/><br/>
+
+      { (data.episodesPerMonth && data.accumulateByDayDictionary) &&
+        <CalendarChart
+          selected={year}
+          data={data.episodesPerMonth}
+          accByDate={data.accumulateByDayDictionary}
+        />
+      }
+    </Grid.Column>)
+  };
 
   return (
     <Grid columns={1}>
@@ -83,6 +107,11 @@ export default function StatScreen({ data, currentYear }) {
       </Grid.Column>
 
       <Grid.Column>
+        { yearsList && [...yearsList].reverse().map(y => getYearSection(y)) }
+      </Grid.Column>
+
+      {false && <>
+        <Grid.Column>
         <HorizontalDivider text={`SOME STATS FOR ${year}`} />
       </Grid.Column>
 
@@ -114,6 +143,8 @@ export default function StatScreen({ data, currentYear }) {
           />
         }
       </Grid.Column>
+</>
+    }
 
 
     </Grid>

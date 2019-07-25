@@ -91,7 +91,7 @@ class CalendarChart extends React.Component  {
   render() {
     const { months, days, accumulateByDayDictionary } = this.state;
     return (
-      <div id="calendar">
+      <div id="calendar" style={{ padding: '0 10%' }}>
         {
           months && months.map((m, idx) => {
             const width = this.getMonthWidth(m);
@@ -155,7 +155,7 @@ class CalendarChart extends React.Component  {
                            />;
 
                         return (
-                          <Popup trigger={rect} flowing>
+                          <Popup trigger={rect} flowing style={{ maxWidth: '300px'}}>
                           <Popup.Header>
                             <Icon name='calendar' /> { date.toDateString() }
                             <Label circular big color='red' floating>{ count }</Label>

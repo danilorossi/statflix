@@ -3,6 +3,7 @@ import { List, Popup } from 'semantic-ui-react';
 import netflixActivityPage from '../assets/netflix_activity_page.png';
 import netflixActivityDownload from '../assets/netflix_activity_download.png';
 import netflixFile from '../assets/netflix_file.png';
+import dropFile from '../assets/drop_file.png';
 
 export default function HeaderHelp() {
   return (
@@ -55,7 +56,21 @@ export default function HeaderHelp() {
           </Popup.Content>
         </Popup>
 
-      , and drag&drop it on the box below - or click on the box to select it from your file system.
+      , and
+        <Popup inverted
+          position='bottom center'
+          trigger={
+            <span>drag & drop it</span>
+          }
+        >
+          <Popup.Header>
+            https://netflix.com/viewingactivity
+          </Popup.Header>
+          <Popup.Content>
+            <img alt="" style={{ width: '500px' }} src={ dropFile } />
+          </Popup.Content>
+        </Popup>
+       on the box below - or click on the box to select it from your file system.
       </List.Item>
     </List>
 
