@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Statflix
+
+This website - **live demo [here](https://danilorossi.github.io/statflix)** - will give you some fun facts and stats about your Netflix viewing activity, based on the activty file you can download from the Netflix activity page.
+
+This is a work in progress pet project: it's mostly an excuse to refresh **D3js** and its integration with **React**. I plan to improve the page and the code, and to provide even more interesting insights and cool visualizations, but I do not promise anything - not a lot of free time lately :)
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and the following documentation comes from the original Create React App README file.
 
 ## Available Scripts
 

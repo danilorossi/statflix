@@ -5,6 +5,7 @@
     "type": "git",
     "url": "https://github.com/danilorossi/statflix.git"
   },
+  "homepage": "https://danilorossi.github.io/statflix",
   "dependencies": {
     "d3": "5.9.2",
     "javascript-time-ago": "2.0.1",
@@ -21,7 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
