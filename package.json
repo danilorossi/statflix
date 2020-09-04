@@ -9,7 +9,7 @@
   "dependencies": {
     "d3": "5.9.2",
     "javascript-time-ago": "2.0.1",
-    "papaparse": "4.6.3",
+    "papaparse": "5.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-dropzone": "10.1.5",
